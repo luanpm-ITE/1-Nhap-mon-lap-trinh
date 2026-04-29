@@ -1,10 +1,11 @@
 
 
-/*8.  Viết hàm nhập vào số có hai chữ số , in ra
-cách đọc của số đó. Ví dụ : n=35 : ba mươi
+/*8.  Viết hàm nhập vào số có hai chữ số 
+, in ra
+cách đọc của số đó. Ví dụ : n=35 : 
+ba mươi
 lăm.*/
 #include <stdio.h>
-
 void docSo(int n)
 {
    char *chuSo[] = {"khong", "mot", "hai", "ba", "bon",
@@ -37,7 +38,6 @@ void docSo(int n)
    }
    printf("\n");
 }
-
 int main()
 {
    int n;

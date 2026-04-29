@@ -1,10 +1,10 @@
 
 
-/*1.  Viết chương trình tính tổng các số nguyên tố
+/*1.  Viết chương trình tính tổng các 
+số nguyên tố
 nhỏ hơn số nguyên dương n. */
 #include <stdio.h>
 #include <stdbool.h>
-
 // Hàm kiểm tra số nguyên tố
 bool isPrime(int x)
 {
@@ -17,7 +17,6 @@ bool isPrime(int x)
    }
    return true;
 }
-
 int main()
 {
    int n, sum = 0;

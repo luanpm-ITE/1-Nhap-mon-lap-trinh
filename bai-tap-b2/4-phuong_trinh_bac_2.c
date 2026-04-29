@@ -1,9 +1,9 @@
 
 
-/*4.  Viết chương trình giải phương trình bậc 2*/
+/*4.  Viết chương trình giải phương trình 
+bậc 2*/
 #include <stdio.h>
 #include <math.h>
-
 int ptb2(int a,int b,int c,int *x1,int *x2)
 {
    int delta;
@@ -18,13 +18,11 @@ int ptb2(int a,int b,int c,int *x1,int *x2)
       *x1=((-b-sqrt(delta))/(2*a)),
       *x2=((-b+sqrt(delta))/(2*a)));
 }
-
 int main()
 {  
    int a,b,c,x1,x2;
    printf("\nNhap a,b va c: ");
    scanf("%d%d%d",&a,&b,&c);
    ptb2(a,b,c,&x1,&x2);
-
    return 0;
 }

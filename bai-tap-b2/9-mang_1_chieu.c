@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <math.h>
-
 int main()
 {
   int a[100],n,choice,i=0;
@@ -97,7 +96,7 @@ int main()
     printf("\nMax: %d",max);
     printf("\nSo luong max: %d",countM);
     break;
-  default: printf("\nNhap tu 1-->6 thoi nhe!!");
+  default: printf("\nNhap tu 1-->7 thoi nhe!!");
     break;
   }
   printf("\nCo tiep tuc khong?c/K? ");

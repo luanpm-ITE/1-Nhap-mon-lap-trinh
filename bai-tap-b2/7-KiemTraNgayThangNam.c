@@ -1,23 +1,25 @@
 
 
-/*7.  Viết hàm nhập vào ngày, tháng, năm thỏa điều kiện
+/*7.  Viết hàm nhập vào ngày, tháng, 
+năm thỏa điều kiện
  (1<=ngày<=31; 1<=tháng<=12;
 năm >1900). Cho biết:
-a)  Tháng vừa nhập có bao nhiêu ngày và thuộc quý mấy
+a)  Tháng vừa nhập có bao nhiêu ngày 
+và thuộc quý mấy
 trông năm.
 b) Kiểm tra năm vừa nhập có phải năm nhuận ?
-c)  Cho biết ngày vừa nhập là ngày thứ baô nhiêu
+c)  Cho biết ngày vừa nhập là ngày thứ 
+baô nhiêu
 trông năm?
-d) Cho biết ngày vừa nhập là ngày thứ mấy trong tuần?*/
+d) Cho biết ngày vừa nhập là ngày thứ 
+mấy trong tuần?*/
 #include <stdio.h>
 #include <stdbool.h>
-
 // Hàm kiểm tra năm nhuận
 bool isLeapYear(int year)
 {
    return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
 }
-
 // Hàm trả về số ngày trong tháng
 int daysInMonth(int month, int year)
 {
@@ -42,7 +44,6 @@ int daysInMonth(int month, int year)
       return 0;
    }
 }
-
 // Hàm xác định quý
 int quarterOfYear(int month)
 {
@@ -55,7 +56,6 @@ int quarterOfYear(int month)
    else
       return 4;
 }
-
 // Hàm tính ngày thứ bao nhiêu trong năm
 int dayOfYear(int day, int month, int year)
 {
@@ -66,7 +66,6 @@ int dayOfYear(int day, int month, int year)
    }
    return sum;
 }
-
 // Hàm tính thứ trong tuần (Zeller’s Congruence)
 int dayOfWeek(int day, int month, int year)
 {
@@ -81,7 +80,6 @@ int dayOfWeek(int day, int month, int year)
    // h = 0: Saturday, 1: Sunday, 2: Monday, ...
    return h;
 }
-
 int main()
 {
    int day, month, year;

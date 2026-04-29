@@ -1,8 +1,8 @@
 
 
-/*3.  Viết hàm trả về giá trị nhỏ nhất của 4 số nguyên */
+/*3.  Viết hàm trả về giá trị nhỏ nhất 
+của 4 số nguyên */
 #include <stdio.h>
-
 int timMin(int a,int b,int c,int d,int *s)
 {
    c=(a<b)?a:b;
@@ -10,7 +10,6 @@ int timMin(int a,int b,int c,int d,int *s)
    *s=(c<d)?c:d;
    return *s;
 }
-
 int main()
 {  
    int a,b,c,d,s,kq;
