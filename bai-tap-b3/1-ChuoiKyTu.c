@@ -5,10 +5,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <conio.h>
-
 char s[]="Hello World!";
 int choice;
-
 int main()
 {
    tt:
@@ -31,7 +29,7 @@ int main()
       printf("\nDo dai cua chuoi s la: %d",len);
       break;
    case 2:
-      printf("\nChuoi  s ban dau la: %s",s);
+      printf("\nChuoi s ban dau la: %s",s);
       int l=0,r=strlen(s)-1;
       char temp;
       while(l<r)
@@ -78,11 +76,5 @@ int main()
    }
    printf("\nCo tiep tuc khong?C/k? ");
    if(getch()=='c'||getch()=='C') goto tt;
-   
-   
-
-
-
-
    return 0;
 }
