@@ -16,7 +16,7 @@ int main()
     printf("-----MENU-----");
     printf("\n 1. Xuat");
     printf("\n 2. Tinh tong");
-    printf("\n 3. Sap xep tang/giam");
+    printf("\n 3. Sap xep tang/ngich dao");
     printf("\n 4. Dem duong va xuat tong");
     printf("\n 5. Tim x(ban phim) trong mang");
     printf("\n 6. Tim phan tu lon nhat va dem sluong");
@@ -59,7 +59,7 @@ int main()
     printf("\nMang sau khi sap tang: ");
     for(int i=0;i<n;++i)
       printf("%d ",a[i]);
-    printf("\nMang sau khi sap giam: ");
+    printf("\nMang sau khi ngich dao la: ");
     for(int i=0;i<n/2;++i)
     {
       int temp=a[i];
