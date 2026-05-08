@@ -3,80 +3,88 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-typedef struct tagNode
+typedef struct
 {
    char maSV[10];
    char ht[30];
    float diemtb;
-   struct tagNode *next;
 }SinhVien;
-void nhapSinhVien(SinhVien *sv)
+typedef struct tagNode
 {
-   printf("\nMa sv: ");
-   scanf("%s",&sv->maSV);getchar();
-   printf("Ho ten: ");
-   scanf("%s",&sv->ht);getchar();
-   printf("Gioi tinh: ");
-   scanf("%s",&sv->gt);getchar();
-   printf("Dia chi: ");
-   scanf("%s",&sv->dc);getchar();
-   printf("Diem tb: ");
-   scanf("%f",&sv->diemtb);getchar();
+   SinhVien info;
+   struct tagNode *next;
+}Node;
+typedef struct
+{
+   Node *head,*tail;
+}List;
+void createList(List *l)
+{
+   l->head=NULL;l->tail=NULL;
 }
-void xuatSinhVien(SinhVien sv)
+Node* createNode(SinhVien sv)
 {
-   printf("\nMa sv: %s",sv.maSV);
-   printf("\nHo ten: %s",sv.ht);
-   printf("\nGioi tinh: %s",sv.gt);
-   printf("\nDia chi: %s",sv.dc);
-   printf("\nDiem tb: %.2f",sv.diemtb);
+   Node *p=(Node*)malloc(sizeof(Node));
+   p->info=sv;
+   p->next=NULL;return p;
 }
-SinhVien* timSV(SinhVien dssv[],int n,SinhVien x )
+SinhVien* createSV(char masv[],char ht[],float diemtb)
 {
-   int i=0;
-   dssv[n]=x;
-   while(dssv[i].maSV!=x.maSV)
-      ++i;
-   return &dssv[i];
+   SinhVien *sv=(SinhVien*)malloc(sizeof(SinhVien));
+   strcpy(sv->maSV,masv);
+   strcpy(sv->ht,ht);
+   sv->diemtb=diemtb;
+   return sv;
+}
+void addHead(List *l,Node *p)
+{
+   if(l->head==NULL)
+   {
+      l->head=p;l->tail=p;
+   }
+   else
+   {
+      p->next=l->head; 
+      l->head=p;
+   }
+}
+void addTail(List *l,Node *p)
+{
+   if(l->head==NULL)
+   {
+      l->head=p;l->tail=p;
+   }
+   else
+   {
+      l->tail->next=p;
+      l->tail=p;
+   }
+}
+void loopList(List l)
+{
+   Node *p=l.head;
+   while(p!=NULL)
+   {
+      printf("\nMa sv: %s\tHo ten: %s\tDiem tb: %.2f"
+         ,p->info.maSV,p->info.ht,p->info.diemtb);
+      p=p->next;
+   }
+
 }
 int main()
 {
-   SinhVien dssv[150];int slsv;
-   printf("\nNhap so luong sv: ");
-   scanf("%d",&slsv);
-   for(int i=1;i<slsv+1;++i)
+   List l;Node *p;
+   createList(&l);
+   SinhVien sv[]={{"SV001","Nguyen Van A",5.5},
+                  {"SV002","Tran Thi B",7.5},
+                  {"SV003","Le Van C",9.5}};
+   for(int i=0;i<3;++i)
    {
-      printf("\nSinh vien thu: %d",i);
-      nhapSinhVien(&dssv[i]);
+      p=createNode(sv[i]);
+      addTail(&l,p);
    }
-   printf("\n\t---DANH SACH SINH VIEN---");
-   for(int i=1;i<slsv+1;++i)
-   {
-      printf("\nThong tin sv thu: %d",i);
-      xuatSinhVien(dssv[i]);
-   }
-   do
-   {
-      printf("\n\t\t---MENU---");
-      printf("\n 1.Tim kiem SV");
-      printf("\n 2.Them 1 SV");
-      printf("\n 3.Xoa 1 SV");
-      printf("\n 4.Xuat SV no diem");
-      printf("\nChon ");int choice;
-      scanf("%d",&choice);
-      switch (choice)
-      {
-      case 1:
-         printf("dfjjd");
-         break;
-      
-      default:printf("\nChon tu 1-->4 thoi!");
-         break;
-      }
-   } while (0);
-   
-
-
+   printf("\nDanh sach sinh vien: ");
+   loopList(l);
 
    return 0;
 }
