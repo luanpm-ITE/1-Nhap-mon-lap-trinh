@@ -71,13 +71,114 @@ void loopList(List l)
    }
 
 }
+Node* timSVTheoMa(List l,char* mssv)
+{
+   Node *p=l.head;
+   while(p!=NULL&&strcmp(p->info.maSV,mssv)!=0)
+      p=p->next;
+   return p;
+}
+void sapXepSVTheoDiemTB(List l)
+{
+   Node *i,*j;SinhVien temp;
+   for(i=l.head;i!=l.tail;i=i->next)
+      for(j=i->next;j!=NULL;j=j->next)
+         if(i->info.diemtb>j->info.diemtb)
+            {
+               temp=i->info;
+               i->info=j->info;
+               j->info=temp;
+            }
+}
+void sapXepSVTheoTen(List l)
+{
+   Node *i,*j;SinhVien temp;
+   for(i=l.head;i!=l.tail;i=i->next)
+      for(j=i->next;j!=NULL;j=j->next)
+         if(strcmp(i->info.ht,j->info.ht)>0)
+            {
+               temp=i->info;
+               i->info=j->info;
+               j->info=temp;
+            }
+}
+void sapXepSVTheoMa(List l)
+{
+   Node *i,*j;SinhVien temp;
+   for(i=l.head;i!=l.tail;i=i->next)
+      for(j=i->next;j!=NULL;j=j->next)
+         if(strcmp(i->info.maSV,j->info.maSV)>0)
+            {
+               temp=i->info;
+               i->info=j->info;
+               j->info=temp;
+            }
+}
+void insertSortedList(List *l,Node *new)
+{
+   Node *p=l->head,*q=NULL;
+   while((p!=NULL)&&(strcmp(p->info.maSV,new->info.maSV)<0))
+   {
+      q=p;p=p->next;
+   }
+   if(q==NULL)
+   {
+      if(l->head==NULL)
+         l->tail=NULL;
+      addHead(l,new);
+   }
+   else
+   {
+      if(l->tail==NULL)
+         l->tail=new;
+      new->next=p;
+      q->next=new;
+   }
+}
+void xoaSVTheoMa(List *l,char *mssv)
+{
+   Node  *p=l->head,*q=NULL;
+   while((p!=NULL)&&(strcmp(p->info.maSV,mssv)!=0))
+   {
+      q=p;p=p->next;
+   }
+   if(p!=NULL)
+   {
+      if(q==NULL)
+      {
+         if(l->head==NULL)
+            l->tail=NULL;
+         l->head=p->next;
+         free(p);
+      }
+      else
+      {
+         if(l->tail==NULL)
+            l->tail=q;
+         q->next=p->next;
+         free(p);
+      }
+   }
+}
+void destroyList(List *l)
+{
+   Node *p=l->head,*temp;
+   while(p!=NULL)
+   {
+      temp=p;
+      p=p->next;
+      free(temp);
+   } 
+   l->head=NULL;
+   l->tail=NULL;
+}
 int main()
 {
    List l;Node *p;
    createList(&l);
-   SinhVien sv[]={{"SV001","Nguyen Van A",5.5},
-                  {"SV002","Tran Thi B",7.5},
-                  {"SV003","Le Van C",9.5}};
+   SinhVien sv[]={{"SV002","Nguyen Van A",5.5},
+                  {"SV000","Tran Thi B",3.5},
+                  {"SV006","Le Van C",9.5}};
    for(int i=0;i<3;++i)
    {
       p=createNode(sv[i]);
@@ -85,6 +186,33 @@ int main()
    }
    printf("\nDanh sach sinh vien: ");
    loopList(l);
-
+   char ma[10]="SV002";
+   Node *kq=timSVTheoMa(l,ma);
+   if(kq!=NULL)
+   {
+      printf("\nTim thay sv co ma: %s",ma);
+      printf("\n\t%s | %s | %.2f",
+         kq->info.maSV,kq->info.ht,kq->info.diemtb);
+   }
+   else printf("\nKhong tim thay sv co ma: %s",ma);
+   printf("\nDanh sach sinh vien sau khi sap xep tang theo diem tb: ");
+   sapXepSVTheoDiemTB(l);
+   loopList(l);
+   SinhVien new={"SV004","Nguyen Van L",3.5};
+   Node *q=createNode(new);
+   insertSortedList(&l,q);
+   printf("\nDanh sach sau khi chen: ");
+   loopList(l);
+   xoaSVTheoMa(&l,"SV004");
+   printf("\nDanh sach sau khi xoa SV004:");
+   loopList(l);
+   xoaSVTheoMa(&l,"SV002");
+   printf("\nDanh sach sau khi xoa SV002:");
+   loopList(l);
+   printf("\nDanh sach sau khi huy:");
+   destroyList(&l);
+   loopList(l);
+   free(&l);
+   
    return 0;
 }
