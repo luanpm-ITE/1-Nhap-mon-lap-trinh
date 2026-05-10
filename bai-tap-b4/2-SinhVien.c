@@ -172,6 +172,21 @@ void destroyList(List *l)
    l->head=NULL;
    l->tail=NULL;
 }
+void ghiDanhSachRaFile(List *l,char *tenFile)
+{
+   FILE *f=fopen(tenFile,"w");
+   if(f!=NULL)
+   {
+      Node *p=l->head;
+      while(p!=NULL)
+      {
+         fprintf(f,"%s\t%s\t%.2f\n",p->info.maSV,
+            p->info.ht,p->info.diemtb);
+         p=p->next;
+      }
+   }
+   else printf("\nKhong mo duoc file %s",tenFile);
+}
 int main()
 {
    List l;Node *p;
@@ -206,13 +221,10 @@ int main()
    xoaSVTheoMa(&l,"SV004");
    printf("\nDanh sach sau khi xoa SV004:");
    loopList(l);
-   xoaSVTheoMa(&l,"SV002");
-   printf("\nDanh sach sau khi xoa SV002:");
-   loopList(l);
+   ghiDanhSachRaFile(&l,"sv.txt");
    printf("\nDanh sach sau khi huy:");
    destroyList(&l);
    loopList(l);
-   free(&l);
-   
+   //xong nhe!
    return 0;
 }
