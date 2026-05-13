@@ -224,7 +224,6 @@ int main()
    ghiDanhSachRaFile(&l,"sv.txt");
    printf("\nDanh sach sau khi huy:");
    destroyList(&l);
-   loopList(l);
    //xong nhe!
    return 0;
 }
