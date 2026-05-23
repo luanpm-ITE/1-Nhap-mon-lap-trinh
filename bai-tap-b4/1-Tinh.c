@@ -9,8 +9,8 @@ typedef struct
    char tenTinh[50];
    long long danSo;
    double dienTich;
-}tinh;
-void nhapTinh(tinh *t)
+}Tinh;
+void nhapTinh(Tinh *t)
 {
    printf("\nNhap ma tinh: ");
    scanf("%s",&t->maTinh);getchar();
@@ -21,14 +21,14 @@ void nhapTinh(tinh *t)
    printf("Nhap dien tich: ");
    scanf("%lf",&t->dienTich);getchar();
 }
-void xuatTinh(tinh t)
+void xuatTinh(Tinh t)
 {
    printf("\n Ma tinh: %s",t.maTinh);
    printf("\n Ten tinh: %s",t.tenTinh);
    printf("\n Dan so: %lld",t.danSo);
    printf("\n Dien tich: %.2lf",t.dienTich);
 }
-void xuatTinhCoDanSoLon(tinh ds[],int n)
+void xuatTinhCoDanSoLon(Tinh ds[],int n)
 {
    long long ds1M=1000000;
    for(int i=1;i<n+1;++i)
@@ -38,9 +38,9 @@ void xuatTinhCoDanSoLon(tinh ds[],int n)
          printf("----------------\n");
    }
 }
-tinh dienTichTinhLonNhat(tinh ds[],int n)
+Tinh dienTichTinhLonNhat(Tinh ds[],int n)
 {
-   tinh maxDT=ds[0];
+   Tinh maxDT=ds[0];
    for(int i=1;i<n+1;++i)
    {
       if(maxDT.dienTich<ds[i].dienTich)
@@ -50,7 +50,7 @@ tinh dienTichTinhLonNhat(tinh ds[],int n)
 } 
 int main()
 {
-   tinh ds[10];
+   Tinh ds[10];
    int n;
    printf("\nNhap so luong tinh: ");
    scanf("%d",&n);

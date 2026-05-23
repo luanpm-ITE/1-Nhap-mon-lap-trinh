@@ -60,7 +60,7 @@ void addTail(List *l,Node *p)
       l->tail=p;
    }
 }
-void loopList(List l)
+void layDanhSachSV(List l)
 {
    Node *p=l.head;
    while(p!=NULL)
@@ -189,20 +189,20 @@ void ghiDanhSachRaFile(List *l,char *tenFile)
 }
 int main()
 {
-   List l;Node *p;
-   createList(&l);
+   List dssv;Node *p;
+   createList(&dssv);
    SinhVien sv[]={{"SV002","Nguyen Van A",5.5},
                   {"SV000","Tran Thi B",3.5},
                   {"SV006","Le Van C",9.5}};
    for(int i=0;i<3;++i)
    {
       p=createNode(sv[i]);
-      addTail(&l,p);
+      addTail(&dssv,p);
    }
    printf("\nDanh sach sinh vien: ");
-   loopList(l);
+   layDanhSachSV(dssv);
    char ma[10]="SV002";
-   Node *kq=timSVTheoMa(l,ma);
+   Node *kq=timSVTheoMa(dssv,ma);
    if(kq!=NULL)
    {
       printf("\nTim thay sv co ma: %s",ma);
@@ -211,19 +211,20 @@ int main()
    }
    else printf("\nKhong tim thay sv co ma: %s",ma);
    printf("\nDanh sach sinh vien sau khi sap xep tang theo diem tb: ");
-   sapXepSVTheoDiemTB(l);
-   loopList(l);
+   sapXepSVTheoDiemTB(dssv);
+   layDanhSachSV(dssv);
    SinhVien new={"SV004","Nguyen Van L",3.5};
    Node *q=createNode(new);
-   insertSortedList(&l,q);
+   insertSortedList(&dssv,q);
    printf("\nDanh sach sau khi chen: ");
-   loopList(l);
-   xoaSVTheoMa(&l,"SV004");
+   layDanhSachSV(dssv);
+   xoaSVTheoMa(&dssv,"SV004");
    printf("\nDanh sach sau khi xoa SV004:");
-   loopList(l);
-   ghiDanhSachRaFile(&l,"sv.txt");
+   layDanhSachSV(dssv);
+   ghiDanhSachRaFile(&dssv,"sv.txt");
    printf("\nDanh sach sau khi huy:");
-   destroyList(&l);
+   destroyList(&dssv);
+   layDanhSachSV(dssv);
    //xong nhe!
    return 0;
 }

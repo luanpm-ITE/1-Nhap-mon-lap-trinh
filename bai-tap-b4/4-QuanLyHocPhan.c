@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
+/*Chương trình quản lý học phần được cài đặt vào
+danh sách liên kết đơn, triển khai dưới dạng danh 
+mục chọn chức năng.Hoàn thiện các chức năng CRUD.*/
 typedef struct 
 {
    int stt;
@@ -180,7 +184,7 @@ void xoaHetDanhSach(List *l)
    float diemhp;*/
 int main()
 {
-   List dshp;Node *p;
+   List dshp;Node *p;int choice;
    HocPhan hp[]=
    {
       {1,"IT001","Nhap mon lap trinh",4,6.8},
@@ -216,37 +220,70 @@ int main()
       p=createNode(hp[i]);
       addTail(&dshp,p);
    }
-   printf("\nDanh sach hoc phan: ");
-   layDanhSachHocPhan(dshp);
-   printf("\nDanh sach sau khi sap xep: ");
-   sapXepDanhSachTheoSTT(dshp);
-   layDanhSachHocPhan(dshp);
-   char *ma=(char*)malloc(10*sizeof(char));
-   printf("\nNhap ma hoc phan can tim: ");
-   scanf("%s",ma);
-   Node *x;//luu hoc phan tim dx
-   x=timHocPhanTheoMa(dshp,ma);
-   if(x!=NULL)
-      {
-         printf("\nTim thay hoc phan co ma %s",ma);
-         printf("\nSTT:%d|Ma:%s|Ten:%s|So tin chi:%d|Diem trung binh:%.2f",x->info.stt,
-               x->info.mahp,x->info.tenhp,x->info.sotc,x->info.diemhp);
-      }
-   else printf("\nKhong tim thay hoc phan co ma %s",ma);
-   HocPhan *newHocPhan;Node *newNode;
-   newHocPhan=nhapHocPhan();
-   newNode=createNode(*newHocPhan);
-   themHocPhanTangDanTheoSTT(&dshp,newNode);
-   printf("\nDanh sach hoc phan: ");
-   layDanhSachHocPhan(dshp);
-   char *maXoa=(char*)malloc(10*sizeof(char));
-   printf("\nNhap ma hoc phan can xoa: ");
-   scanf("%s",maXoa);
-   xoaHocPhanTheoMa(&dshp,maXoa);
-   printf("\nDanh sach hoc phan sau khi xoa %s:",maXoa);
-   layDanhSachHocPhan(dshp);
-   printf("\nDanh sach sau khi xoa sach:");
-   xoaHetDanhSach(&dshp);
-   layDanhSachHocPhan(dshp);
+   tt:
+   do
+   {
+      printf("\n===========================");
+      printf("\n          MENU             ");
+      printf("\n===========================");
+      printf("\n 1. Xuat danh sach hoc phan.");
+      printf("\n 2. Sap xep danh sach hoc phan.");
+      printf("\n 3. Xuat danh sach hoc phan theo ma.");
+      printf("\n 4. Them hoc phan vao danh sach.");
+      printf("\n 5. Xoa hoc phan theo ma.");
+      printf("\n 6. Huy toan bo danh sach.");
+      printf("\nChon: ");scanf("%d",&choice);
+   } while (0);
+   switch (choice)
+   {
+   case  1:
+      printf("\nDanh sach hoc phan: ");
+      layDanhSachHocPhan(dshp);
+      break;
+   case  2:
+      printf("\nDanh sach sau khi sap xep: ");
+      sapXepDanhSachTheoSTT(dshp);
+      layDanhSachHocPhan(dshp);
+      break;
+   case  3:
+      char *ma=(char*)malloc(10*sizeof(char));
+      printf("\nNhap ma hoc phan can tim: ");
+      scanf("%s",ma);
+      Node *x;//luu hoc phan tim dx
+      x=timHocPhanTheoMa(dshp,ma);
+      if(x!=NULL)
+         {
+            printf("\nTim thay hoc phan co ma %s",ma);
+            printf("\nSTT:%d|Ma:%s|Ten:%s|So tin chi:%d|Diem trung binh:%.2f",x->info.stt,
+                  x->info.mahp,x->info.tenhp,x->info.sotc,x->info.diemhp);
+         }
+      else printf("\nKhong tim thay hoc phan co ma %s",ma);
+      break;
+   case  4:
+      HocPhan *newHocPhan;Node *newNode;
+      newHocPhan=nhapHocPhan();
+      newNode=createNode(*newHocPhan);
+      themHocPhanTangDanTheoSTT(&dshp,newNode);
+      printf("\nDanh sach hoc phan: ");
+      layDanhSachHocPhan(dshp);
+      break;
+   case  5:
+      char *maXoa=(char*)malloc(10*sizeof(char));
+      printf("\nNhap ma hoc phan can xoa: ");
+      scanf("%s",maXoa);
+      xoaHocPhanTheoMa(&dshp,maXoa);
+      printf("\nDanh sach hoc phan sau khi xoa %s:",maXoa);
+      layDanhSachHocPhan(dshp);
+      break;
+   case 6:
+      printf("\nDanh sach sau khi xoa sach:");
+      xoaHetDanhSach(&dshp);
+      layDanhSachHocPhan(dshp);
+      break;
+   default:printf("\nChon tu 1->6 thoi nhe!!!");
+      break;
+   }
+   printf("\nCo tiep tuc khong?c/K? ");
+   if(getch()=='c'||getch()=='C')goto tt;
    return 0;
 }

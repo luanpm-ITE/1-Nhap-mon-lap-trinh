@@ -9,10 +9,10 @@ typedef struct
    char tensp[30];
    int sl;
    float dongia;
-}SanPham;
+}NongSan;
 typedef struct tagNode
 {
-   SanPham info;
+   NongSan info;
    struct tagNode *next;
 }Node;
 typedef struct
@@ -24,10 +24,10 @@ void createStack(Stack *s)
    s->head=NULL;
    s->tail=NULL;
 }
-Node* createNode(SanPham sp)
+Node* createNode(NongSan ns)
 {
    Node *p=(Node*)malloc(sizeof(Node));
-   p->info=sp;
+   p->info=ns;
    p->next=NULL;return p;
 }
 void push(Stack *s,Node *p)
@@ -43,7 +43,7 @@ void push(Stack *s,Node *p)
       s->head=p;
    }
 }
-int pop(Stack *s,SanPham sp)
+int pop(Stack *s,NongSan ns)
 {
    Node *p;
    if(s->head!=NULL)
@@ -52,13 +52,13 @@ int pop(Stack *s,SanPham sp)
          s->tail=NULL;
       p=s->head;
       s->head=s->head->next;
-      sp=p->info;
+      ns=p->info;
       free(p);
       return 1;
    }
    return 0;
 }
-void loopStack(Stack s)
+void layDanhSachNongSan(Stack s)
 {
    Node *p=s.head;
    while(p!=NULL)
@@ -70,7 +70,7 @@ void loopStack(Stack s)
 }
 void sapXepTheoSoLuong(Stack s)
 {
-   Node *i,*j,*min;SanPham temp;
+   Node *i,*j,*min;NongSan temp;
    for(i=s.head;i!=s.tail;i=i->next)
    {
       min=i;
@@ -84,7 +84,7 @@ void sapXepTheoSoLuong(Stack s)
       i->info=temp;
    }
 }
-Node* timSPTheoTen(Stack s,char *tensp)
+Node* timNongSanTheoTen(Stack s,char *tensp)
 {
    Node *p=s.head;
    while((p!=NULL)&&(strcmp(p->info.tensp,tensp)!=0))
@@ -112,7 +112,7 @@ void insertSortedStack(Stack *s,Node *new)
       q->next=new;
    }
 }
-void xoaSanPhamTheoMa(Stack *s,char *masp)
+void xoaNongSanTheoMa(Stack *s,char *masp)
 {
    Node *p=s->head,*q=NULL;
    while(p!=NULL&&strcmp(p->info.masp,masp)!=0)
@@ -139,9 +139,9 @@ void xoaSanPhamTheoMa(Stack *s,char *masp)
 }
 int main()
 {
-   Stack s;Node *p;
-   createStack(&s);
-   SanPham  sp[]=
+   Stack dsns;Node *p;
+   createStack(&dsns);
+   NongSan  ns[]=
    {
       {"SP001","Dua kho",100,3.000},
       {"SP002","Dua tuoi",55,5.000},
@@ -151,12 +151,12 @@ int main()
    };
    for(int i=0;i<5;++i)
    {
-      p=createNode(sp[i]);
-      push(&s,p);
+      p=createNode(ns[i]);
+      push(&dsns,p);
    }
    printf("\nDanh sach san pham: ");
-   loopStack(s);
-   Node *kq=timSPTheoTen(s,"Dua tuoi");
+   layDanhSachNongSan(dsns);
+   Node *kq=timNongSanTheoTen(dsns,"Dua tuoi");
    if(kq!=NULL)
    {
       printf("\nTim thay san pham:");
@@ -164,17 +164,17 @@ int main()
          kq->info.tensp,kq->info.sl,kq->info.dongia);
    }
    else printf("\nTim khong thay san pham");
-   SanPham new={"SP000","Xoai",50,30.000};
+   NongSan new={"SP000","Xoai",50,30.000};
    Node *newNode=createNode(new);
-   insertSortedStack(&s,newNode);
+   insertSortedStack(&dsns,newNode);
    printf("\nDanh sach sau khi them sp moi: ");
-   loopStack(s);
+   layDanhSachNongSan(dsns);
    printf("\nDanh sach sau khi sap xep: ");
-   sapXepTheoSoLuong(s);
-   loopStack(s);
-   xoaSanPhamTheoMa(&s,"SP000");
+   sapXepTheoSoLuong(dsns);
+   layDanhSachNongSan(dsns);
+   xoaNongSanTheoMa(&dsns,"SP000");
    printf("\nDach sach sau khi xoa SP000: ");
-   loopStack(s);
+   layDanhSachNongSan(dsns);
    //xong nhe
    return 0;
 }
