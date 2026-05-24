@@ -34,6 +34,7 @@ Node* createNode(HocPhan hp)
    Node *p=(Node*)malloc(sizeof(Node));
    p->info=hp;
    p->next=NULL;
+   return p;
 }
 HocPhan* nhapHocPhan()
 {
@@ -49,8 +50,12 @@ HocPhan* nhapHocPhan()
    printf("\nNhap so tc: ");
    scanf("%d",&hp->sotc);
    printf("\nNhap diem hp: ");
-   scanf("%f",&hp->sotc);
+   scanf("%f",&hp->diemhp);
    return hp;
+}
+void xuatHocPhan(HocPhan hp) {
+    printf("STT:%d | Ma:%s | Ten:%s | So TC:%d | Diem TB:%.2f\n",
+           hp.stt,hp.mahp,hp.tenhp,hp.sotc,hp.diemhp);       
 }
 void addHead(List *l,Node* p)
 {
@@ -78,7 +83,7 @@ void addTail(List *l,Node* p)
       l->tail=p;
    }
 }
-void layDanhSachHocPhan(List l)
+void layToanBoDanhSach(List l)
 {
    Node *p=l.head;
    while(p!=NULL)
@@ -87,6 +92,13 @@ void layDanhSachHocPhan(List l)
       p->info.mahp,p->info.tenhp,p->info.sotc,p->info.diemhp);
       p=p->next;
    }
+}
+Node* layHocPhanTheoMa(List l,char* mahp)
+{
+   Node *p=l.head;
+   while(p!=NULL&&strcmp(p->info.mahp,mahp)!=0)
+      p=p->next;
+   return p;
 }
 void sapXepDanhSachTheoDiemTB(List l)
 {
@@ -112,13 +124,6 @@ void sapXepDanhSachTheoSTT(List l)
             j->info=temp;
          }
 }
-Node* timHocPhanTheoMa(List l,char* mahp)
-{
-   Node *p=l.head;
-   while(p!=NULL&&strcmp(p->info.mahp,mahp)!=0)
-      p=p->next;
-   return p;
-}
 void themHocPhanTangDanTheoSTT(List *l,Node *new)
 {
    Node *p=l->head,*q=NULL;
@@ -139,6 +144,36 @@ void themHocPhanTangDanTheoSTT(List *l,Node *new)
       new->next=p;
       q->next=new;
    }
+}
+Node* suaDiemTBHocPhanTheoMa(List l,char *mahp)
+{
+   Node *p=l.head;
+   while(p!=NULL)
+   {
+      if(strcmp(p->info.mahp,mahp)==0)
+      {
+         printf("\nNhap vao diem tb moi: ");
+         scanf("%f",&p->info.diemhp);
+         return p;
+      }
+      p=p->next;
+   }return NULL;
+}
+int lietKeHocPhan4TCVaDiemTrenTB(List l)
+{
+   int count=0,sotc=4;float diemtb=5.0;
+   Node *p=l.head;
+   printf("\nDanh sach hoc phan 4 tin chi & diem tb > %.2f:\n",diemtb);
+   while(p!=NULL)
+   {
+      if(p->info.diemhp>diemtb&&p->info.sotc==sotc)
+      {
+         ++count;
+         xuatHocPhan(p->info);
+      }
+      p=p->next;
+   }
+   return count;
 }
 void xoaHocPhanTheoMa(List *l,char *mahp)
 {
@@ -165,7 +200,7 @@ void xoaHocPhanTheoMa(List *l,char *mahp)
       }
    }
 }
-void xoaHetDanhSach(List *l)
+void xoaToanBoDanhSach(List *l)
 {
    Node *p;
    while(l->head!=NULL)
@@ -228,29 +263,35 @@ int main()
       printf("\n===========================");
       printf("\n 1. Xuat danh sach hoc phan.");
       printf("\n 2. Sap xep danh sach hoc phan.");
-      printf("\n 3. Xuat danh sach hoc phan theo ma.");
+      printf("\n 3. Xuat hoc phan theo ma.");
       printf("\n 4. Them hoc phan vao danh sach.");
       printf("\n 5. Xoa hoc phan theo ma.");
       printf("\n 6. Huy toan bo danh sach.");
+      printf("\n 7. Sua diem hoc phan.");
+      printf("\n 8. Liet ke cac hoc phan 4 tin chi va tren 5.0.");
       printf("\nChon: ");scanf("%d",&choice);
    } while (0);
    switch (choice)
    {
    case  1:
-      printf("\nDanh sach hoc phan: ");
-      layDanhSachHocPhan(dshp);
+      printf("\n===========================");
+      printf("\n    DANH SACH HOC PHAN     ");
+      printf("\n===========================");
+      layToanBoDanhSach(dshp);
       break;
    case  2:
-      printf("\nDanh sach sau khi sap xep: ");
+      printf("\n===========================");
+      printf("\nDANH SACH HOC PHAN SAU KHI SAP XEP");
+      printf("\n===========================");
       sapXepDanhSachTheoSTT(dshp);
-      layDanhSachHocPhan(dshp);
+      layToanBoDanhSach(dshp);
       break;
    case  3:
       char *ma=(char*)malloc(10*sizeof(char));
       printf("\nNhap ma hoc phan can tim: ");
       scanf("%s",ma);
       Node *x;//luu hoc phan tim dx
-      x=timHocPhanTheoMa(dshp,ma);
+      x=layHocPhanTheoMa(dshp,ma);
       if(x!=NULL)
          {
             printf("\nTim thay hoc phan co ma %s",ma);
@@ -264,8 +305,10 @@ int main()
       newHocPhan=nhapHocPhan();
       newNode=createNode(*newHocPhan);
       themHocPhanTangDanTheoSTT(&dshp,newNode);
-      printf("\nDanh sach hoc phan: ");
-      layDanhSachHocPhan(dshp);
+      printf("\n===========================");
+      printf("\n    DANH SACH HOC PHAN     ");
+      printf("\n===========================");
+      layToanBoDanhSach(dshp);
       break;
    case  5:
       char *maXoa=(char*)malloc(10*sizeof(char));
@@ -273,14 +316,28 @@ int main()
       scanf("%s",maXoa);
       xoaHocPhanTheoMa(&dshp,maXoa);
       printf("\nDanh sach hoc phan sau khi xoa %s:",maXoa);
-      layDanhSachHocPhan(dshp);
+      layToanBoDanhSach(dshp);
       break;
    case 6:
       printf("\nDanh sach sau khi xoa sach:");
-      xoaHetDanhSach(&dshp);
-      layDanhSachHocPhan(dshp);
+      xoaToanBoDanhSach(&dshp);
+      layToanBoDanhSach(dshp);
       break;
-   default:printf("\nChon tu 1->6 thoi nhe!!!");
+   case 7:
+      char maSua[10];
+      printf("\nNhap ma hoc phan can sua: ");
+      scanf("%s",maSua);
+      Node *y;
+      y=suaDiemTBHocPhanTheoMa(dshp,maSua);
+      printf("\nHoc phan sau khi dieu chinh diem tb:");
+      printf("\nSTT:%d|Ma:%s|Ten:%s|So tin chi:%d|Diem trung binh:%.2f",y->info.stt,
+                  y->info.mahp,y->info.tenhp,y->info.sotc,y->info.diemhp);
+      break;
+   case 8:
+      int count=lietKeHocPhan4TCVaDiemTrenTB(dshp);
+      printf("\tSo hoc phan 4 tin chi & diem tb tren 5: %d",count);
+      break;
+   default:printf("\nChon tu 1->8 thoi nhe!!!");
       break;
    }
    printf("\nCo tiep tuc khong?c/K? ");

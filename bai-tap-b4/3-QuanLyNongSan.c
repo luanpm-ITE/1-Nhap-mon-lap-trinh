@@ -5,8 +5,8 @@
 #include <string.h>
 typedef struct
 {
-   char masp[10];
-   char tensp[30];
+   char mans[10];
+   char tenns[30];
    int sl;
    float dongia;
 }NongSan;
@@ -64,7 +64,7 @@ void layDanhSachNongSan(Stack s)
    while(p!=NULL)
    {
       printf("\nMa sp: %s\tTen sp: %s\tSo luong: %d\tDon gia: %.4f"
-         ,p->info.masp,p->info.tensp,p->info.sl,p->info.dongia);
+         ,p->info.mans,p->info.tenns,p->info.sl,p->info.dongia);
       p=p->next;
    }
 }
@@ -84,17 +84,17 @@ void sapXepTheoSoLuong(Stack s)
       i->info=temp;
    }
 }
-Node* timNongSanTheoTen(Stack s,char *tensp)
+Node* timNongSanTheoTen(Stack s,char *tenns)
 {
    Node *p=s.head;
-   while((p!=NULL)&&(strcmp(p->info.tensp,tensp)!=0))
+   while((p!=NULL)&&(strcmp(p->info.tenns,tenns)!=0))
       p=p->next;
    return p;
 }
 void insertSortedStack(Stack *s,Node *new)
 {
    Node *p=s->head,*q=NULL;
-   while(p!=NULL&&strcmp(p->info.masp,new->info.masp)>0)
+   while(p!=NULL&&strcmp(p->info.mans,new->info.mans)>0)
    {
       q=p;p=p->next;
    }
@@ -112,10 +112,10 @@ void insertSortedStack(Stack *s,Node *new)
       q->next=new;
    }
 }
-void xoaNongSanTheoMa(Stack *s,char *masp)
+void xoaNongSanTheoMa(Stack *s,char *mans)
 {
    Node *p=s->head,*q=NULL;
-   while(p!=NULL&&strcmp(p->info.masp,masp)!=0)
+   while(p!=NULL&&strcmp(p->info.mans,mans)!=0)
    {
       q=p;p=p->next;
    }
@@ -160,8 +160,8 @@ int main()
    if(kq!=NULL)
    {
       printf("\nTim thay san pham:");
-      printf("\n\t%s | %s | %d | %.4f",kq->info.masp,
-         kq->info.tensp,kq->info.sl,kq->info.dongia);
+      printf("\n\t%s | %s | %d | %.4f",kq->info.mans,
+         kq->info.tenns,kq->info.sl,kq->info.dongia);
    }
    else printf("\nTim khong thay san pham");
    NongSan new={"SP000","Xoai",50,30.000};

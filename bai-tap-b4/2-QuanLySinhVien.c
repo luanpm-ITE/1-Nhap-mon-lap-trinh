@@ -160,7 +160,7 @@ void xoaSVTheoMa(List *l,char *mssv)
       }
    }
 }
-void destroyList(List *l)
+void xoaHetDanhSach(List *l)
 {
    Node *p=l->head,*temp;
    while(p!=NULL)
@@ -223,7 +223,7 @@ int main()
    layDanhSachSV(dssv);
    ghiDanhSachRaFile(&dssv,"sv.txt");
    printf("\nDanh sach sau khi huy:");
-   destroyList(&dssv);
+   xoaHetDanhSach(&dssv);
    layDanhSachSV(dssv);
    //xong nhe!
    return 0;
