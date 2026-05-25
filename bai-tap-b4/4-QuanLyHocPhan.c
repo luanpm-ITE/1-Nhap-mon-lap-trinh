@@ -1,12 +1,12 @@
 
 
+/*Chương trình quản lý học phần được cài đặt vào
+danh sách liên kết đơn, triển khai dưới dạng danh 
+mục chọn chức năng.Hoàn thiện các chức năng CRUD.*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
-/*Chương trình quản lý học phần được cài đặt vào
-danh sách liên kết đơn, triển khai dưới dạng danh 
-mục chọn chức năng.Hoàn thiện các chức năng CRUD.*/
 typedef struct 
 {
    int stt;
@@ -250,14 +250,12 @@ int main()
       {26,"IE106","Thiet ke giao dien nguoi dung",0,0}
    };
    createList(&dshp);
-   for(int i=0;i<21;++i)
+   for(int i=0;i<26;++i)
    {
       p=createNode(hp[i]);
       addTail(&dshp,p);
    }
    tt:
-   do
-   {
       printf("\n===========================");
       printf("\n          MENU             ");
       printf("\n===========================");
@@ -270,7 +268,6 @@ int main()
       printf("\n 7. Sua diem hoc phan.");
       printf("\n 8. Liet ke cac hoc phan 4 tin chi va tren 5.0.");
       printf("\nChon: ");scanf("%d",&choice);
-   } while (0);
    switch (choice)
    {
    case  1:
@@ -343,4 +340,4 @@ int main()
    printf("\nCo tiep tuc khong?c/K? ");
    if(getch()=='c'||getch()=='C')goto tt;
    return 0;
-}
+}//xong nhe!!!

@@ -1,33 +1,42 @@
 
 
+/*Chương trình quản lý sinh vien được cài đặt vào
+danh sách liên kết đơn, triển khai dưới dạng danh 
+mục chọn chức năng.Hoàn thiện các chức năng CRUD.*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+//Cấu trúc sinh viên
 typedef struct
 {
    char maSV[10];
    char ht[30];
    float diemtb;
 }SinhVien;
+//Cấu trúc nút lưu sinh viên
 typedef struct tagNode
 {
    SinhVien info;
    struct tagNode *next;
 }Node;
+//Cấu trúc list lưu nút
 typedef struct
 {
    Node *head,*tail;
 }List;
+//Hàm tạo list
 void createList(List *l)
 {
    l->head=NULL;l->tail=NULL;
 }
+//Hàm tạo nút lưu sinh viên 
 Node* createNode(SinhVien sv)
 {
    Node *p=(Node*)malloc(sizeof(Node));
    p->info=sv;
    p->next=NULL;return p;
 }
+//Hàm tạo sinh viên
 SinhVien* createSV(char masv[],char ht[],float diemtb)
 {
    SinhVien *sv=(SinhVien*)malloc(sizeof(SinhVien));
@@ -36,6 +45,12 @@ SinhVien* createSV(char masv[],char ht[],float diemtb)
    sv->diemtb=diemtb;
    return sv;
 }
+//Hàm ghi sinh viên
+void xuatSV(SinhVien hp) {
+    printf("Ma:%s | Ten:%s | Diem TB:%.2f\n",
+           hp.maSV,hp.ht,hp.diemtb);       
+}
+//Hàm gán nút vào đầu list
 void addHead(List *l,Node *p)
 {
    if(l->head==NULL)
@@ -48,6 +63,7 @@ void addHead(List *l,Node *p)
       l->head=p;
    }
 }
+//Hàm gán nút vào cuối list
 void addTail(List *l,Node *p)
 {
    if(l->head==NULL)
@@ -60,7 +76,8 @@ void addTail(List *l,Node *p)
       l->tail=p;
    }
 }
-void layDanhSachSV(List l)
+//Hàm lấy dssv
+void hienThiDanhSachSV(List l)
 {
    Node *p=l.head;
    while(p!=NULL)
@@ -71,13 +88,15 @@ void layDanhSachSV(List l)
    }
 
 }
-Node* timSVTheoMa(List l,char* mssv)
+//Hàm lấy sv theo mã sv
+Node* hienThiSVTheoMa(List l,char* mssv)
 {
    Node *p=l.head;
    while(p!=NULL&&strcmp(p->info.maSV,mssv)!=0)
       p=p->next;
    return p;
 }
+//Hàm sort sv theo điểm tb
 void sapXepSVTheoDiemTB(List l)
 {
    Node *i,*j;SinhVien temp;
@@ -90,6 +109,7 @@ void sapXepSVTheoDiemTB(List l)
                j->info=temp;
             }
 }
+//Hàm sort sv theo điểm ten
 void sapXepSVTheoTen(List l)
 {
    Node *i,*j;SinhVien temp;
@@ -102,6 +122,7 @@ void sapXepSVTheoTen(List l)
                j->info=temp;
             }
 }
+//Hàm sort sv theo điểm ma
 void sapXepSVTheoMa(List l)
 {
    Node *i,*j;SinhVien temp;
@@ -114,6 +135,7 @@ void sapXepSVTheoMa(List l)
                j->info=temp;
             }
 }
+//Hàm thêm nút vào list 
 void insertSortedList(List *l,Node *new)
 {
    Node *p=l->head,*q=NULL;
@@ -135,6 +157,22 @@ void insertSortedList(List *l,Node *new)
       q->next=new;
    }
 }
+//Hàm sửa điểm tb theo mã sv
+Node* suaDiemTBTheoMa(List l,char *masv)
+{
+   Node *p=l.head;
+   while(p!=NULL)
+   {
+      if(strcmp(p->info.maSV,masv)==0)
+      {
+         printf("\nNhap vao diem tb moi: ");
+         scanf("%f",&p->info.diemtb);
+         return p;
+      }
+      p=p->next;
+   }return NULL;
+}
+//Hàm xóa 1 sinh viên theo mã
 void xoaSVTheoMa(List *l,char *mssv)
 {
    Node  *p=l->head,*q=NULL;
@@ -160,7 +198,8 @@ void xoaSVTheoMa(List *l,char *mssv)
       }
    }
 }
-void xoaHetDanhSach(List *l)
+//Hàm xóa hết dssv
+void xoaToanBoDanhSach(List *l)
 {
    Node *p=l->head,*temp;
    while(p!=NULL)
@@ -172,6 +211,7 @@ void xoaHetDanhSach(List *l)
    l->head=NULL;
    l->tail=NULL;
 }
+//Hàm ghi dssv ra file .txt
 void ghiDanhSachRaFile(List *l,char *tenFile)
 {
    FILE *f=fopen(tenFile,"w");
@@ -191,18 +231,25 @@ int main()
 {
    List dssv;Node *p;
    createList(&dssv);
-   SinhVien sv[]={{"SV002","Nguyen Van A",5.5},
-                  {"SV000","Tran Thi B",3.5},
-                  {"SV006","Le Van C",9.5}};
-   for(int i=0;i<3;++i)
+   SinhVien sv[]={{"SV001", "Nguyen Van A", 7.5},
+        {"SV002", "Tran Thi B", 8.2},
+        {"SV003", "Le Van C", 6.8},
+        {"SV004", "Pham Thi D", 9.0},
+        {"SV005", "Hoang Van E", 5.5},
+        {"SV006", "Do Thi F", 7.0},
+        {"SV007", "Nguyen Van G", 8.7},
+        {"SV008", "Tran Thi H", 6.2},
+        {"SV009", "Le Van I", 7.8},
+        {"SV010", "Pham Thi K", 9.3}};
+   for(int i=0;i<10;++i)
    {
       p=createNode(sv[i]);
       addTail(&dssv,p);
    }
    printf("\nDanh sach sinh vien: ");
-   layDanhSachSV(dssv);
-   char ma[10]="SV002";
-   Node *kq=timSVTheoMa(dssv,ma);
+   hienThiDanhSachSV(dssv);
+   char ma[10]="SV011";
+   Node *kq=hienThiSVTheoMa(dssv,ma);
    if(kq!=NULL)
    {
       printf("\nTim thay sv co ma: %s",ma);
@@ -212,19 +259,19 @@ int main()
    else printf("\nKhong tim thay sv co ma: %s",ma);
    printf("\nDanh sach sinh vien sau khi sap xep tang theo diem tb: ");
    sapXepSVTheoDiemTB(dssv);
-   layDanhSachSV(dssv);
+   hienThiDanhSachSV(dssv);
    SinhVien new={"SV004","Nguyen Van L",3.5};
    Node *q=createNode(new);
    insertSortedList(&dssv,q);
    printf("\nDanh sach sau khi chen: ");
-   layDanhSachSV(dssv);
+   hienThiDanhSachSV(dssv);
    xoaSVTheoMa(&dssv,"SV004");
    printf("\nDanh sach sau khi xoa SV004:");
-   layDanhSachSV(dssv);
+   hienThiDanhSachSV(dssv);
    ghiDanhSachRaFile(&dssv,"sv.txt");
    printf("\nDanh sach sau khi huy:");
-   xoaHetDanhSach(&dssv);
-   layDanhSachSV(dssv);
+   xoaToanBoDanhSach(&dssv);
+   hienThiDanhSachSV(dssv);
    //xong nhe!
    return 0;
 }
