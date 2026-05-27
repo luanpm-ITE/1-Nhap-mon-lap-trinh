@@ -43,6 +43,19 @@ void LRN(Tree t)
       LRN(t->right);
    }
 }
+TNode* searchX(Tree t,int x)
+{
+   while(t!=NULL)
+   {
+      if(t->key==x) return t;
+      else
+      {
+         if(x<t->key)
+            t=t->left;
+         else t=t->right;
+      }
+   }return NULL;
+}
 int main()
 {
    Tree t;TNode *p;

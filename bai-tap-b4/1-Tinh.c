@@ -66,7 +66,6 @@ int main()
       printf("\nThong tin tinh thu: %d",i);
       xuatTinh(ds[i]);
    }
-   
    printf("\nTinh co dan so hon 1M: ");
    xuatTinhCoDanSoLon(ds,n);
    printf("\nTinh co dien tich lon nhat: ");
