@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
 /*Chương trình quản lý user được cài đặt vào
 danh sách liên kết đơn, triển khai dưới dạng danh 
 mục chọn chức năng.Hoàn thiện các chức năng CRUD.*/
@@ -46,7 +45,7 @@ typedef struct
 {
    Node *head,*tail;
 }List;
-user* scanfUser()
+user* nhapUser()
 {
    user *us=(user*)malloc(sizeof(user));
    printf("\nNhap ID: ");
@@ -81,7 +80,7 @@ user* scanfUser()
    fgets(us->company.bs,sizeof(us->company.bs),stdin);
    return us;
 }
-void printfUser(user us)
+void xuatUser(user us)
 {
    //printf("\n-----Thong tin user-----\n");
    printf("\nID: %d\nName: %s\nUsername: %s\nEmail: %s",us.id,
@@ -132,23 +131,23 @@ void addTail(List *l,Node* p)
       l->tail=p;
    }
 }
-void getAllUsers(List l)
+void layToanBoDanhSach(List l)
 {
    Node *p=l.head;
    while(p!=NULL)
    {
-      printfUser(p->info);
+      xuatUser(p->info);
       p=p->next;
    }
 }
-Node* getUserByID(List l,int id)
+Node* timUserTheoID(List l,int id)
 {
    Node *p=l.head;
    while(p!=NULL&&p->info.id!=id)
       p=p->next;
    return p;
 }
-void postUserSortedByID(List *l,Node *newNode)
+void themUserTheoID(List *l,Node *newNode)
 {
    Node *p=l->head,*q=NULL;
    while(p!=NULL&&p->info.id<newNode->info.id)
@@ -169,7 +168,7 @@ void postUserSortedByID(List *l,Node *newNode)
       q->next=newNode;
    }
 }
-Node* updateNameUserByID(List l,int id)
+Node* suaUserTheoID(List l,int id)
 {
    Node *p=l.head;
    while(p!=NULL)
@@ -179,48 +178,16 @@ Node* updateNameUserByID(List l,int id)
          printf("\nNhap name: ");
          scanf("%s",p->info.name);
          return p;
-      }p=p->next;
-   }return NULL;
-}
-void deleteUserByID(List *l,int id)
-{
-   Node *p=l->head,*q=NULL;
-   while(p!=NULL&&p->info.id!=id)
-   {
-      q=p;p=p->next;
-   }
-   if(p!=NULL)
-   {
-      if(q==NULL)
-      {
-         if(l->head==NULL)
-            l->tail=NULL;
-         l->head=p->next;
-         free(p);
       }
-      else
-      {
-         if(l->tail==NULL)
-            l->tail=q;
-         q->next=p->next;
-         free(p);
-      }
-   }
-}
-void deleteAllUsers(List *l)
-{
-   Node *p;
-   while(l->head!=NULL)
-   {
-      p=l->head;
       p=p->next;
-      free(p);
-   }l->tail=NULL;
+   }
+   return NULL;
 }
+
 
 int main()
 {
-   List userList;Node *defaultNode;
+   List ds;Node *p;
    user us[10] = {
         {
             1, "Leanne Graham", "Bret", "Sincere@april.biz",
@@ -283,75 +250,36 @@ int main()
             {"Hoeger LLC", "Centralized empowering task-force", "target end-to-end models"}
         }
     };
-   createList(&userList);
+   createList(&ds);
    for(int i=0;i<10;++i)
    {
-      defaultNode=createNode(us[i]);
-      addTail(&userList,defaultNode);
+      p=createNode(us[i]);
+      addTail(&ds,p);
    }
-   tt:
-   int choice;
-      printf("\n===========================");
-      printf("\n       MENU-USER-CRUD      ");
-      printf("\n===========================");
-      printf("\n 1. GET ALL USERS.");
-      printf("\n 2. GET USER BY ID.");
-      printf("\n 3. POST USER BY ID.");
-      printf("\n 4. UPDATE USER BY ID.");
-      printf("\n 5. DELETE USER BY ID.");
-      printf("\n 6. DESTROY USER.");
-      printf("\nChoice: ");scanf("%d",&choice);
-   switch (choice)
-   {
-   case 1:
-      printf("\n-----USER LIST-----\n");
-      getAllUsers(userList);
-      break;
-   case 2:
-      int searchID;Node *searchNode;
-      printf("\nEnter searchID: ");
-      scanf("%d",&searchID);
-      searchNode=getUserByID(userList,searchID);
-      if(searchNode!=NULL)
-      {
-         printf("\n\tRESULT:");
-         printfUser(searchNode->info);
-      }
-      else printf("\nNot fount user id %d",searchID);
-      break;
-   case 3:
-      printf("\n-----USER LIST-----\n");
-      Node *postNode;
-      postNode=createNode(us[9]);
-      postUserSortedByID(&userList,postNode);
-      getAllUsers(userList);
-      break;
-   case 4:
-      int updateID;
-      printf("\nEnter update ID: ");
-      scanf("%d",&updateID);
-      Node *updateNode;
-      updateNode=updateUserByID(userList,updateID);
-      printf("\nUser ID %d affter updating: ",updateID);
-      printfUser(updateNode->info);
-      break;
-   case 5:
-      int deleteID;
-      printf("\nEnter delete ID: ");
-      scanf("%d",&deleteID);
-      deleteUserByID(&userList,deleteID);
-      printf("\n-----USER LIST-----\n");
-      getAllUsers(userList);
-      break;
-   case 6:
-      printf("\nUser affter destroy: ");
-      deleteAllUsers(&userList);
-      break;
-   default:printf("\nEnter 1->6!!!");
-      break;
-   }
-   printf("\nDo you want continue?y/N? ");
-   if(getch()=='y'||getch()=='Y')goto tt;
+   // printf("\n-----DANH SACH USER-----\n");
+   // layToanBoDanhSach(ds);
+   // int id;
+   // printf("\nNhap ID User can tim: ");
+   // scanf("%d",&id);Node *user;
+   // user=timUserTheoID(ds,id);
+   // if(user!=NULL)
+   // {
+   //    printf("\n\tRESULT:");
+   //    xuatUser(user->info);
+   // }
+   // else printf("\nKhong tim thay user co id %d",id);
+   // printf("\nDanh sach USER sau khi them nut moi: ");
+   // Node *newNode;
+   // newNode=createNode(us[0]);
+   // themUserTheoID(&ds,newNode);
+   // layToanBoDanhSach(ds);
+   int idUpdate;
+   printf("\nNhap user ID can sua: ");
+   scanf("%d",&idUpdate);
+   suaUserTheoID(ds,idUpdate);
+   printf("\nDanh sach USER sau khi cap nhat: ");
+   layToanBoDanhSach(ds);
+
    return 0;
 }
 // {
