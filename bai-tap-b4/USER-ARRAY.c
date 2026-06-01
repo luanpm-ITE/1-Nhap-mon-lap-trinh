@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 /*Chương trình quản lý user được cài đặt vào
-danh sách liên kết đơn, triển khai dưới dạng danh 
+mảng 1 chiều, triển khai dưới dạng danh 
 mục chọn chức năng.Hoàn thiện các chức năng CRUD.*/
 typedef struct
 {
@@ -36,16 +37,21 @@ typedef struct
    char website[30];
    company company;
 }user;
-typedef struct tagNode
+void printfUser(user us)
 {
-   user info;
-   struct tagNode *next;
-}Node;
-typedef struct
-{
-   Node *head,*tail;
-}List;
-user* nhapUser()
+   //printf("\n-----Thong tin user-----\n");
+   printf("\nID: %d\nName: %s\nUsername: %s\nEmail: %s",us.id,
+      us.name,us.username,us.email);
+   printf("\nAddress: %s | %s | %s | %s",us.address.street,
+      us.address.suite,us.address.city,us.address.zipcode);
+   printf("\nGeo: lat=%s lng=%s",us.address.geo.lat,
+      us.address.geo.lng);
+   printf("\nPhone: %s | Website: %s",us.phone,us.website);
+   printf("\nCompany name: %s",us.company.name);
+   printf("\n\tCatchPhrase: %s",us.company.catchPhrase);
+   printf("\n\tBS: %s",us.company.bs);
+}
+user* scanfUser()
 {
    user *us=(user*)malloc(sizeof(user));
    printf("\nNhap ID: ");
@@ -80,115 +86,22 @@ user* nhapUser()
    fgets(us->company.bs,sizeof(us->company.bs),stdin);
    return us;
 }
-void xuatUser(user us)
+void getAllUsers(user us[],int n)
 {
-   //printf("\n-----Thong tin user-----\n");
-   printf("\nID: %d\nName: %s\nUsername: %s\nEmail: %s",us.id,
-      us.name,us.username,us.email);
-   printf("\nAddress: %s | %s | %s | %s",us.address.street,
-      us.address.suite,us.address.city,us.address.zipcode);
-   printf("\nGeo: lat=%s lng=%s",us.address.geo.lat,
-      us.address.geo.lng);
-   printf("\nPhone: %s | Website: %s",us.phone,us.website);
-   printf("\nCompany name: %s",us.company.name);
-   printf("\n\tCatchPhrase: %s",us.company.catchPhrase);
-   printf("\n\tBS: %s",us.company.bs);
+    for(int i=0;i<n;++i)
+      printfUser(us[i]);
 }
-void createList(List *l)
+user* getUserByID(user *us,int n,int id)
 {
-   l->head=NULL;
-   l->tail=NULL;
+   int i=0;
+   while(i<n&&us[i].id!=id)
+      ++i;
+   if(i==n) return NULL;
+   else return &us[i];
 }
-Node* createNode(user us)
-{
-   Node *p=(Node*)malloc(sizeof(Node));
-   p->info=us;
-   p->next=NULL;return p;
-}
-void addHead(List *l,Node* p)
-{
-   if(l->head==NULL)
-   {
-      l->head=p;
-      l->tail=p;
-   }
-   else
-   {
-      p->next=l->head;
-      l->head=p;
-   }
-}
-void addTail(List *l,Node* p)
-{
-   if(l->head==NULL)
-   {
-      l->head=p;
-      l->tail=p;
-   }
-   else
-   {
-      l->tail->next=p;
-      l->tail=p;
-   }
-}
-void layToanBoDanhSach(List l)
-{
-   Node *p=l.head;
-   while(p!=NULL)
-   {
-      xuatUser(p->info);
-      p=p->next;
-   }
-}
-Node* timUserTheoID(List l,int id)
-{
-   Node *p=l.head;
-   while(p!=NULL&&p->info.id!=id)
-      p=p->next;
-   return p;
-}
-void themUserTheoID(List *l,Node *newNode)
-{
-   Node *p=l->head,*q=NULL;
-   while(p!=NULL&&p->info.id<newNode->info.id)
-   {
-      q=p;p=p->next;
-   }
-   if(q==NULL)
-   {
-      if(l->head==NULL)
-         l->tail=NULL;
-      addHead(l,newNode);
-   }
-   else 
-   {
-      if(l->tail==NULL)
-         l->tail=newNode;
-      newNode->next=p;
-      q->next=newNode;
-   }
-}
-Node* suaUserTheoID(List l,int id)
-{
-   Node *p=l.head;
-   while(p!=NULL)
-   {
-      if(p->info.id==id)
-      {
-         printf("\nNhap name: ");
-         scanf("%s",p->info.name);
-         return p;
-      }
-      p=p->next;
-   }
-   return NULL;
-}
-
-
 int main()
 {
-   List ds;Node *p;
-   user us[10] = {
+   user users[] = {
         {
             1, "Leanne Graham", "Bret", "Sincere@april.biz",
             {"Kulas Light", "Apt. 556", "Gwenborough", "92998-3874", {"-37.3159", "81.1496"}},
@@ -249,59 +162,19 @@ int main()
             "024-648-3804", "ambrose.net",
             {"Hoeger LLC", "Centralized empowering task-force", "target end-to-end models"}
         }
-    };
-   createList(&ds);
-   for(int i=0;i<10;++i)
+   };
+   printf("\nDanh sach User: ");
+   getAllUsers(users,10);
+   int userID;
+   printf("\nNhap user ID: ");
+   scanf("%d",&userID);
+   user *searchUser;
+   searchUser=getUserByID(users,10,userID);
+   if(searchUser!=NULL)
    {
-      p=createNode(us[i]);
-      addTail(&ds,p);
+      printf("Tim thay User ID %d\nKet qua: ",userID);
+      printfUser(*searchUser);
    }
-   // printf("\n-----DANH SACH USER-----\n");
-   // layToanBoDanhSach(ds);
-   // int id;
-   // printf("\nNhap ID User can tim: ");
-   // scanf("%d",&id);Node *user;
-   // user=timUserTheoID(ds,id);
-   // if(user!=NULL)
-   // {
-   //    printf("\n\tRESULT:");
-   //    xuatUser(user->info);
-   // }
-   // else printf("\nKhong tim thay user co id %d",id);
-   // printf("\nDanh sach USER sau khi them nut moi: ");
-   // Node *newNode;
-   // newNode=createNode(us[0]);
-   // themUserTheoID(&ds,newNode);
-   // layToanBoDanhSach(ds);
-   int idUpdate;
-   printf("\nNhap user ID can sua: ");
-   scanf("%d",&idUpdate);
-   suaUserTheoID(ds,idUpdate);
-   printf("\nDanh sach USER sau khi cap nhat: ");
-   layToanBoDanhSach(ds);
-
+   else printf("Khong tim thay User ID %d",userID);
    return 0;
 }
-// {
-//     "id": 1,
-//     "name": "Leanne Graham",
-//     "username": "Bret",
-//     "email": "Sincere@april.biz",
-//     "address": {
-//       "street": "Kulas Light",
-//       "suite": "Apt. 556",
-//       "city": "Gwenborough",
-//       "zipcode": "92998-3874",
-//       "geo": {
-//         "lat": "-37.3159",
-//         "lng": "81.1496"
-//       }
-//     },
-//     "phone": "1-770-736-8031 x56442",
-//     "website": "hildegard.org",
-//     "company": {
-//       "name": "Romaguera-Crona",
-//       "catchPhrase": "Multi-layered client-server neural-net",
-//       "bs": "harness real-time e-markets"
-//     }
-//   },

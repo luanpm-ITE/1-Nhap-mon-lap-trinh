@@ -220,7 +220,7 @@ void deleteAllUsers(List *l)
 
 int main()
 {
-   List userList;Node *defaultNode;
+   List userList;Node *p;int id;
    user us[10] = {
         {
             1, "Leanne Graham", "Bret", "Sincere@april.biz",
@@ -286,8 +286,8 @@ int main()
    createList(&userList);
    for(int i=0;i<10;++i)
    {
-      defaultNode=createNode(us[i]);
-      addTail(&userList,defaultNode);
+      p=createNode(us[i]);
+      addTail(&userList,p);
    }
    tt:
    int choice;
@@ -308,38 +308,29 @@ int main()
       getAllUsers(userList);
       break;
    case 2:
-      int searchID;Node *searchNode;
-      printf("\nEnter searchID: ");
-      scanf("%d",&searchID);
-      searchNode=getUserByID(userList,searchID);
-      if(searchNode!=NULL)
-      {
-         printf("\n\tRESULT:");
-         printfUser(searchNode->info);
-      }
-      else printf("\nNot fount user id %d",searchID);
+      printf("\nEnter ID: ");
+      scanf("%d",&id);
+      p=getUserByID(userList,id);
+      if(p) printfUser(p->info);
+      else printf("\nNot fount user id %d",id);
       break;
    case 3:
       printf("\n-----USER LIST-----\n");
-      Node *postNode;
-      postNode=createNode(us[9]);
-      postUserSortedByID(&userList,postNode);
+      p=createNode(us[9]);
+      postUserSortedByID(&userList,p);
       getAllUsers(userList);
       break;
    case 4:
-      int updateID;
-      printf("\nEnter update ID: ");
-      scanf("%d",&updateID);
-      Node *updateNode;
-      updateNode=updateUserByID(userList,updateID);
-      printf("\nUser ID %d affter updating: ",updateID);
-      printfUser(updateNode->info);
+      printf("\nEnter ID: ");
+      scanf("%d",&id);
+      p=updateNameUserByID(userList,id);
+      printf("\nUser ID %d affter updating: ",id);
+      printfUser(p->info);
       break;
    case 5:
-      int deleteID;
-      printf("\nEnter delete ID: ");
-      scanf("%d",&deleteID);
-      deleteUserByID(&userList,deleteID);
+      printf("\nEnter ID: ");
+      scanf("%d",&id);
+      deleteUserByID(&userList,id);
       printf("\n-----USER LIST-----\n");
       getAllUsers(userList);
       break;
