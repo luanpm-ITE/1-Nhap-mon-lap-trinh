@@ -46,40 +46,70 @@ typedef struct
 {
    Node *head,*tail;
 }List;
-user* scanfUser()
-{
-   user *us=(user*)malloc(sizeof(user));
-   printf("\nNhap ID: ");
-   scanf("%d",&us->id);
-   printf("\nNhap name: ");
-   fgets(us->name,sizeof(us->name),stdin);
-   printf("\nNhap username: ");
-   fgets(us->username,sizeof(us->username),stdin);
-   printf("\nNhap email: ");
-   fgets(us->email,sizeof(us->email),stdin);
-   printf("\nNhap street: ");
-   fgets(us->address.street,sizeof(us->address.street),stdin);
-   printf("\nNhap suite: ");
-   fgets(us->address.suite,sizeof(us->address.suite),stdin);
-   printf("\nNhap city: ");
-   fgets(us->address.city,sizeof(us->address.city),stdin);
-   printf("\nNhap zipcode: ");
-   fgets(us->address.zipcode,sizeof(us->address.zipcode),stdin);
-   printf("\nNhap lat: ");
-   fgets(us->address.geo.lat,sizeof(us->address.geo.lat),stdin);
-   printf("\nNhap lng: ");
-   fgets(us->address.geo.lng,sizeof(us->address.geo.lng),stdin);
-   printf("\nNhap phone: ");
-   fgets(us->phone,sizeof(us->phone),stdin);
-   printf("\nNhap website: ");
-   fgets(us->website,sizeof(us->website),stdin);
-   printf("\nNhap company name: ",us->company.name);
-   fgets(us->company.name,sizeof(us->company.name),stdin);
-   printf("Nhap catchPhrase: ");
-   fgets(us->company.catchPhrase,sizeof(us->company.catchPhrase),stdin);
-   printf("Nhap bs: ");
-   fgets(us->company.bs,sizeof(us->company.bs),stdin);
-   return us;
+user* scanfUser() {
+      printf("\nNhap thong tin User moi:");
+      user *us = (user*)malloc(sizeof(user));
+      printf("\nNhap ID: ");
+      scanf("%d", &us->id);
+      getchar(); // bỏ ký tự '\n' còn lại sau scanf
+
+      printf("Nhap name: ");
+      fgets(us->name, sizeof(us->name), stdin);
+      us->name[strcspn(us->name, "\n")] = '\0';
+
+      printf("Nhap username: ");
+      fgets(us->username, sizeof(us->username), stdin);
+      us->username[strcspn(us->username, "\n")] = '\0';
+
+      printf("Nhap email: ");
+      fgets(us->email, sizeof(us->email), stdin);
+      us->email[strcspn(us->email, "\n")] = '\0';
+
+      printf("Nhap street: ");
+      fgets(us->address.street, sizeof(us->address.street), stdin);
+      us->address.street[strcspn(us->address.street, "\n")] = '\0';
+
+      printf("Nhap suite: ");
+      fgets(us->address.suite, sizeof(us->address.suite), stdin);
+      us->address.suite[strcspn(us->address.suite, "\n")] = '\0';
+
+      printf("Nhap city: ");
+      fgets(us->address.city, sizeof(us->address.city), stdin);
+      us->address.city[strcspn(us->address.city, "\n")] = '\0';
+
+      printf("Nhap zipcode: ");
+      fgets(us->address.zipcode, sizeof(us->address.zipcode), stdin);
+      us->address.zipcode[strcspn(us->address.zipcode, "\n")] = '\0';
+
+      printf("Nhap lat: ");
+      fgets(us->address.geo.lat, sizeof(us->address.geo.lat), stdin);
+      us->address.geo.lat[strcspn(us->address.geo.lat, "\n")] = '\0';
+
+      printf("Nhap lng: ");
+      fgets(us->address.geo.lng, sizeof(us->address.geo.lng), stdin);
+      us->address.geo.lng[strcspn(us->address.geo.lng, "\n")] = '\0';
+
+      printf("Nhap phone: ");
+      fgets(us->phone, sizeof(us->phone), stdin);
+      us->phone[strcspn(us->phone, "\n")] = '\0';
+
+      printf("Nhap website: ");
+      fgets(us->website, sizeof(us->website), stdin);
+      us->website[strcspn(us->website, "\n")] = '\0';
+
+      printf("Nhap company name: ");
+      fgets(us->company.name, sizeof(us->company.name), stdin);
+      us->company.name[strcspn(us->company.name, "\n")] = '\0';
+
+      printf("Nhap catchPhrase: ");
+      fgets(us->company.catchPhrase, sizeof(us->company.catchPhrase), stdin);
+      us->company.catchPhrase[strcspn(us->company.catchPhrase, "\n")] = '\0';
+
+      printf("Nhap bs: ");
+      fgets(us->company.bs, sizeof(us->company.bs), stdin);
+      us->company.bs[strcspn(us->company.bs, "\n")] = '\0';
+
+      return us;
 }
 void printfUser(user us)
 {
@@ -220,7 +250,7 @@ void deleteAllUsers(List *l)
 
 int main()
 {
-   List userList;Node *p;int id;
+   List userList;Node *p;int id;user *newUser;
    user us[10] = {
         {
             1, "Leanne Graham", "Bret", "Sincere@april.biz",
@@ -295,11 +325,11 @@ int main()
       printf("\n       MENU-USER-CRUD      ");
       printf("\n===========================");
       printf("\n 1. GET ALL USERS.");
-      printf("\n 2. GET USER BY ID.");
-      printf("\n 3. POST USER BY ID.");
-      printf("\n 4. UPDATE USER BY ID.");
-      printf("\n 5. DELETE USER BY ID.");
-      printf("\n 6. DESTROY USER.");
+      printf("\n 2. GET USERS BY ID.");
+      printf("\n 3. POST USERS BY ID.");
+      printf("\n 4. UPDATE USERS BY ID.");
+      printf("\n 5. DELETE USERS BY ID.");
+      printf("\n 6. DESTROY USERS.");
       printf("\nChoice: ");scanf("%d",&choice);
    switch (choice)
    {
@@ -308,6 +338,7 @@ int main()
       getAllUsers(userList);
       break;
    case 2:
+      printf("\n-----USER BY ID-----\n");
       printf("\nEnter ID: ");
       scanf("%d",&id);
       p=getUserByID(userList,id);
@@ -315,12 +346,14 @@ int main()
       else printf("\nNot fount user id %d",id);
       break;
    case 3:
-      printf("\n-----USER LIST-----\n");
-      p=createNode(us[9]);
+      printf("\n-----USER POST-----\n");
+      newUser=scanfUser();
+      p=createNode(*newUser);
       postUserSortedByID(&userList,p);
       getAllUsers(userList);
       break;
    case 4:
+      printf("\n-----USER UPDATE-----\n");
       printf("\nEnter ID: ");
       scanf("%d",&id);
       p=updateNameUserByID(userList,id);
@@ -328,6 +361,7 @@ int main()
       printfUser(p->info);
       break;
    case 5:
+      printf("\n-----USER DELETE-----\n");
       printf("\nEnter ID: ");
       scanf("%d",&id);
       deleteUserByID(&userList,id);
