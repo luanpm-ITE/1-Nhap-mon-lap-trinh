@@ -5,6 +5,9 @@
 #include <string.h>
 #include <conio.h>
 #define MAX_ALBUM 10
+/*Chương trình quản lý user được cài đặt vào
+cây nhị phân tìm kiếm, triển khai dưới dạng danh 
+mục chọn chức năng.Hoàn thiện các chức năng CRUD.*/
 typedef struct 
 {
    int id;
